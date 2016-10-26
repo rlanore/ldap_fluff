@@ -11,7 +11,8 @@ class TestPosixMemberService < MiniTest::Test
   def test_find_user
     user = posix_user_payload
     @ldap.expect(:search, user, [:filter => @ms.name_filter('john'),
-                                 :base   => config.base_dn])
+                                 :base   => config.base_dn,
+                                 :deref  => config.deref])
     @ms.ldap = @ldap
     assert_equal posix_user_payload, @ms.find_user('john')
     @ldap.verify
@@ -28,7 +29,8 @@ class TestPosixMemberService < MiniTest::Test
   def test_user_exists
     user = posix_user_payload
     @ldap.expect(:search, user, [:filter => @ms.name_filter('john'),
-                                 :base   => config.base_dn])
+                                 :base   => config.base_dn,
+                                 :deref  => config.deref])
     @ms.ldap = @ldap
     assert @ms.find_user('john')
     @ldap.verify
@@ -36,7 +38,8 @@ class TestPosixMemberService < MiniTest::Test
 
   def test_user_doesnt_exists
     @ldap.expect(:search, nil, [:filter => @ms.name_filter('john'),
-                                :base   => config.base_dn])
+                                :base   => config.base_dn,
+                                :deref  => config.deref])
     @ms.ldap = @ldap
     assert_raises(LdapFluff::Posix::MemberService::UIDNotFoundException) { @ms.find_user('john') }
     @ldap.verify

@@ -36,6 +36,13 @@ class TestLDAP < MiniTest::Test
     @ldap.verify
   end
 
+  def test_valid_user_deref
+    @ldap.expect(:user_exists?, true, %w(john))
+    @fluff.ldap = @ldap
+    assert(@fluff.valid_user?('john'))
+    @ldap.verify
+  end
+
   def test_valid_group
     @ldap.expect(:group_exists?, true, %w(broskies))
     @fluff.ldap = @ldap

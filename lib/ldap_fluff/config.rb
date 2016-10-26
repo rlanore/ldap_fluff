@@ -3,7 +3,7 @@ require 'active_support/core_ext/hash'
 
 class LdapFluff::Config
   ATTRIBUTES = %w[host port encryption base_dn group_base server_type service_user
-                    service_pass anon_queries attr_login search_filter
+                    service_pass anon_queries attr_login search_filter deref
                     instrumentation_service ]
   ATTRIBUTES.each { |attr| attr_reader attr.to_sym }
 
@@ -12,6 +12,7 @@ class LdapFluff::Config
                      'base_dn' => 'dc=company,dc=com',
                      'group_base' => 'dc=company,dc=com',
                      'server_type' => :free_ipa,
+                     'deref' => nil,
                      'anon_queries' => false,
                      'instrumentation_service' => nil }
 

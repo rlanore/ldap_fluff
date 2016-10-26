@@ -5,11 +5,12 @@ class LdapFluff::Posix::MemberService < LdapFluff::GenericMemberService
 
   def initialize(ldap, config)
     @attr_login = (config.attr_login || 'memberuid')
+    @deref      = config.deref
     super
   end
 
   def find_user(uid)
-    user = @ldap.search(:filter => name_filter(uid), :base => @base)
+    user = @ldap.search(:filter => name_filter(uid), :base => @base, :deref => @deref)
     raise UIDNotFoundException if (user.nil? || user.empty?)
     user
   end
